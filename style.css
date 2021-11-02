@@ -1,0 +1,214 @@
+/*Обнуление*/
+
+*,
+*::before,
+*::after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+:focus,
+:active {
+  outline: none;
+}
+
+a:focus,
+a:active {
+  outline: none;
+}
+
+nav,
+footer,
+header,
+aside {
+  display: block;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  line-height: 1;
+  font-size: 14px;
+  -ms-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #333;
+  color: #fff;
+}
+
+input,
+button,
+textarea {
+  font-family: inherit;
+}
+
+input::-ms-clear {
+  display: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+button::-moz-focus-inner {
+  padding: 0;
+  border: 0;
+}
+
+a,
+a:visited {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+ul,
+ol,
+li {
+  list-style: none;
+}
+
+img {
+  vertical-align: top;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+/*--------------------*/
+
+.wrapper {
+  min-height: 100%;
+}
+
+.page {
+  padding: 50px 0;
+}
+
+.page__block {
+  margin-bottom: 50px;
+}
+
+.block-one .block__body {
+  background-color: #794f45;
+}
+
+.block-two .block__body {
+  background-color: #77608d;
+}
+
+.block-three .block__body {
+  background-color: #7a956b;
+}
+
+.block__container {
+  max-width: 1200px;
+  padding: 0 15px;
+  margin: 0 auto;
+}
+
+.block__body {
+  padding: 50px;
+}
+
+.block__title {
+  font-size: 30px;
+  line-height: 130%;
+  margin-bottom: 20px;
+}
+
+.block__text {
+  font-size: 16px;
+  line-height: 150%;
+}
+
+@media (max-width: 1200px) {
+  .block__body {
+    padding: calc(20px + (50 - 20) * ((100vw - 320px) / (1200 - 320)));
+
+    /* где 1200px - максимальная ширина ограничивающего контеинера
+20px - минимальное значение паддинга на разрешении 320px
+(50 - 20) от изначального значения паддинга в 50px отнимаем остаточное значение в 20px и умножаем все на...
+(100vw - 320px) от ширины  вьюпорта отнимаем минимальную ширину экрана и делим все на ...
+(1200 - 320) - ширину ограничивающего контейнера за вычитом минимального значения */
+  }
+
+  .block__title {
+    font-size: calc(20px + (30 - 20) * ((100vw - 320px) / (1200 - 320)));
+    /* 20px - минимальное значение шрифта на разрешении 320px */
+
+    margin-bottom: calc(10px + (20 - 10) * ((100vw - 320px) / (1200 - 320)));
+  }
+
+  .block__text {
+    font-size: calc(14px + (16 - 14) * ((100vw - 320px) / (1200 - 320)));
+  }
+
+  .page__block {
+    margin-bottom: calc(20px + (50 - 20) * ((100vw - 320px) / (1200 - 320)));
+  }
+}
+
+/* Адаптивное свойство */
+
+$maxWidth: 1920px;
+$maxWidthContainer: 1170px;
+
+@mixin adaptive-value($property, $startSize, $minSize, $type) {
+  $addSize: $startSize - $minSize;
+  @if $tipe==1 {
+    /* только если меньше контейнера */
+    #{$property}: $startSize + px;
+    @media (max-width: #{$maxWidthContainer + px}) {
+      #{$property}: calc(
+        #{$minSize + px} + #{$addSize} *
+          ((100vw - 320px) / #{$maxWidthContainer - 320})
+      );
+    }
+  } @else if $tipe==2 {
+    /* только если больше контейнера */
+    #{$property}: $startSize + px;
+    @media (min-width: #{$maxWidthContainer + px}) {
+      #{$property}: calc(
+        #{$minSize + px} + #{$addSize} * ((100vw - 320px) / #{$maxWidth - 320})
+      );
+    }
+  } @else {
+    /* всегда */
+    #{$property}: calc(
+      #{$minSize + px} + #{$addSize} * ((100vw - 320px) / #{$maxWidth - 320})
+    );
+  }
+}
+
+
+
+
+    .block__body {
+        @include adaptive-value("padding", 50, 20, 0);
+      /* padding: calc(20px + (50 - 20) * ((100vw - 320px) / (1200 - 320))); */
+    }
+  
+    .block__title {
+      font-size: calc(20px + (30 - 20) * ((100vw - 320px) / (1200 - 320)));
+      margin-bottom: calc(10px + (20 - 10) * ((100vw - 320px) / (1200 - 320)));
+    }
+  
+    .block__text {
+      font-size: calc(14px + (16 - 14) * ((100vw - 320px) / (1200 - 320)));
+    }
